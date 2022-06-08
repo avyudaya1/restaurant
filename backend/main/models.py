@@ -15,11 +15,12 @@ class ItemCategory(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=255)
-    unit_choices = ([0, 'Kilogram'], [1, 'Litre'],)
-    unit = models.IntegerField(choices=unit_choices)
+    unit_choices = (['Kg', 'Kilogram'], ['Lt', 'Litre'],)
+    unit = models.CharField(choices=unit_choices, max_length=20)
     quantity = models.FloatField(validators=[MinValueValidator(0.0)])
     manufacture_date = models.DateField()
     expiry_date = models.DateField()
+    price = models.FloatField(validators=[MinValueValidator(0.0)])
     item_category = models.ForeignKey(ItemCategory, blank=False, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
