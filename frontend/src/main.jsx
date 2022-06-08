@@ -8,7 +8,9 @@ import drfProvider, {
 } from "ra-data-django-rest-framework";
 import { parseBool } from "./helpers";
 import items from "./items";
-import Dashboard from './components/Dashboard';
+import menuitems from "./menuitems";
+import categorycommon from "./categorycommon";
+import Dashboard from "./components/Dashboard";
 
 let dataProvider;
 let authProvider;
@@ -32,8 +34,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     dashboard={Dashboard}
     authProvider={authProvider}
     dataProvider={dataProvider}
-    
   >
-    {(permissions) => [<Resource name="items" {...items} />]}
+    {(permissions) => [
+      <Resource name="itemcategories" {...categorycommon}/>,
+      <Resource name="items" {...items} />,
+      <Resource name="menuitemcategories" {...categorycommon}/>,
+      <Resource name="menuitems" {...menuitems} />,
+    ]}
   </Admin>
 );
