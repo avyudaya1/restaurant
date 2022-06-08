@@ -15,7 +15,7 @@ class ItemCategory(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=255)
-    unit_choices = (['Kg', 'Kilogram'], ['Lt', 'Litre'],)
+    unit_choices = (['Kilogram', 'Kilogram'], ['Litre', 'Litre'],)
     unit = models.CharField(choices=unit_choices, max_length=20)
     quantity = models.FloatField(validators=[MinValueValidator(0.0)])
     manufacture_date = models.DateField()

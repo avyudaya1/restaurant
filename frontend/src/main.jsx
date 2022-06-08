@@ -7,7 +7,8 @@ import drfProvider, {
   fetchJsonWithAuthJWTToken,
 } from "ra-data-django-rest-framework";
 import { parseBool } from "./helpers";
-import {ItemList} from "./items/ItemList";
+import items from "./items";
+import Dashboard from './components/Dashboard';
 
 let dataProvider;
 let authProvider;
@@ -28,10 +29,11 @@ if (useJWTAuth) {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Admin
     title="Restaurant"
+    dashboard={Dashboard}
     authProvider={authProvider}
     dataProvider={dataProvider}
     
   >
-    {(permissions) => [<Resource name="items" list={ItemList} />]}
+    {(permissions) => [<Resource name="items" {...items} />]}
   </Admin>
 );
