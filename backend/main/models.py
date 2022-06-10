@@ -1,3 +1,4 @@
+from calendar import c
 from pyexpat import model
 from tabnanny import verbose
 from django.db import models
@@ -23,6 +24,15 @@ class Item(models.Model):
     price = models.FloatField(validators=[MinValueValidator(0.0)])
     item_category = models.ForeignKey(ItemCategory, blank=False, on_delete=models.SET_NULL, null=True)
 
+    def save(self, *args, **kwargs):
+        if Item.objects.filter(name=self.name).exists():
+            raise ValidationError(self.name, ' already exists. Edit it.')
+        if self.manufacture_date > self.expiry_date:
+            raise ValidationError('The expiry date can not be earlier than manufacture date.')
+        elif self.manufacture_date == self.expiry_date:
+            raise ValidationError('Manufacture and Expiry dates can not be same.')
+        return super(Item, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -35,14 +45,21 @@ class MenuItemCategory(models.Model):
     def __str__(self):
         return self.name
 
+class ItemWithQuantity(models.Model):
+    name = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False)
+    quantity = models.FloatField(validators=[MinValueValidator(0.0)])
+
+    def save(self, *args, **kwargs):
+        if self.quantity > self.name.qantity:
+            raise ValidationError('The inventory does not have wanted quantity.')
+
 class MenuItem(models.Model):
     name = models.CharField(max_length=255)
-    ingredients = models.ManyToManyField(Item)
-    cooking_time = models.TimeField()
+    ingredients = models.ManyToManyField(ItemWithQuantity)
+    cooking_time = models.DurationField()
     cost = models.FloatField(validators=[MinValueValidator(0.0)])
     menu_category = models.ForeignKey(MenuItemCategory, blank=False, on_delete=models.SET_NULL, null=True)
 
-    
     def __str__(self):
         return self.name
 
