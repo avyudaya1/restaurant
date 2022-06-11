@@ -11,6 +11,7 @@ import items from "./items";
 import menuitems from "./menuitems";
 import categorycommon from "./categorycommon";
 import Dashboard from "./components/Dashboard";
+import LoginPage from "./components/LoginPage";
 
 let dataProvider;
 let authProvider;
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     dashboard={Dashboard}
     authProvider={authProvider}
     dataProvider={dataProvider}
+    loginPage={LoginPage}
   >
     {(permissions) => [
       <Resource name="itemcategories" {...categorycommon}/>,
