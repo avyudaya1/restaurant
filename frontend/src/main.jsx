@@ -12,6 +12,8 @@ import menuitems from "./menuitems";
 import categorycommon from "./categorycommon";
 import Dashboard from "./components/Dashboard";
 import LoginPage from "./components/LoginPage";
+import CookieIcon from '@mui/icons-material/Cookie';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 let dataProvider;
 let authProvider;
@@ -38,10 +40,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     loginPage={LoginPage}
   >
     {(permissions) => [
-      <Resource name="itemcategories" {...categorycommon}/>,
-      <Resource name="items" {...items} />,
-      <Resource name="menuitemcategories" {...categorycommon}/>,
-      <Resource name="menuitems" {...menuitems} />,
+      <Resource name="itemcategories" options={{ label: 'Item Categories'}} {...categorycommon}/>,
+      <Resource name="items" {...items} icon={RestaurantIcon}/>,
+      <Resource name="menuitemcategories" options={{ label: 'Menuitem Categories'}} {...categorycommon}/>,
+      <Resource name="menuitems" {...menuitems} icon={CookieIcon} />,
     ]}
   </Admin>
 );
