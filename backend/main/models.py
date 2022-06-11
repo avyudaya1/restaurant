@@ -43,25 +43,23 @@ class MenuItemCategory(models.Model):
         verbose_name_plural = 'Menu item Categories'
     
     def __str__(self):
-        return self.name
+        return self.name 
 
-class ItemWithQuantity(models.Model):
-    name = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False)
+class IngredientToMenuItem(models.Model):
+    ingredient = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.FloatField(validators=[MinValueValidator(0.0)])
-
-    def save(self, *args, **kwargs):
-        if self.quantity > self.name.qantity:
-            raise ValidationError('The inventory does not have wanted quantity.')
+    menu_item = models.ForeignKey("main.MenuItem", on_delete=models.CASCADE)
 
 class MenuItem(models.Model):
     name = models.CharField(max_length=255)
-    ingredients = models.ManyToManyField(ItemWithQuantity)
+    ingredients = models.ManyToManyField(Item, through="main.IngredientToMenuItem")
     cooking_time = models.DurationField()
     cost = models.FloatField(validators=[MinValueValidator(0.0)])
     menu_category = models.ForeignKey(MenuItemCategory, blank=False, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
+
 
 class Store(models.Model):
     name = models.CharField(max_length=255)
