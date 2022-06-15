@@ -50,6 +50,11 @@ class IngredientToMenuItem(models.Model):
     quantity = models.FloatField(validators=[MinValueValidator(0.0)])
     menu_item = models.ForeignKey("main.MenuItem", on_delete=models.CASCADE)
 
+
+    def __str__(self):
+        return self.ingredient.name
+
+
 class MenuItem(models.Model):
     name = models.CharField(max_length=255)
     ingredients = models.ManyToManyField(Item, through="main.IngredientToMenuItem")

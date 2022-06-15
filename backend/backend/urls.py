@@ -29,3 +29,7 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
+
+admin.site.site_header  =  "Restaurant Inventory Management"  
+admin.site.site_title  =  "Restaurant Inventory Management site"
+admin.site.index_title  =  "Restaurant Inventory Management"
